@@ -21,7 +21,7 @@ This backend allows users to sign up and log in securely using JWT authenticatio
 **1. Clone the repository**
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/devbysamcloudy/Summative-Lab-Full-Auth-Flask-Backend--Productivity-App
 cd <your-project-folder>
 ```
 
@@ -35,19 +35,25 @@ source venv/bin/activate
 **3. Install dependencies**
 
 ```bash
-pip install flask flask-sqlalchemy flask-migrate flask-jwt-extended flask-bcrypt
+pip install -r requirements.txt
 ```
 
-**4. Set up the database**
+**4. Set up environment variables**
+
+Create a `.env` file in the root directory:
+
+```
+SECRET_KEY=your_secret_key
+JWT_SECRET_KEY=your_jwt_secret_key
+```
+
+**5. Set up the database**
 
 ```bash
-flask shell
->>> from app.extensions import db
->>> db.create_all()
->>> exit()
+flask db upgrade
 ```
 
-**5. Seed the database (optional)**
+**6. Seed the database (optional)**
 
 ```bash
 python seed.py
@@ -184,12 +190,18 @@ app/
   routes/
     auth_routes.py
     note_routes.py
+  schemas/
+    user_schema.py
+    note_schema.py
+  utilis/
+    auth_utilis.py
+  config.py
   extensions.py
   __init__.py
 
 seed.py
 run.py
-README.md
+Readme.md
 ```
 
 ## Author
