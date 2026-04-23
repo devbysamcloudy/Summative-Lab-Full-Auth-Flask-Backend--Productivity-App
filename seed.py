@@ -8,13 +8,12 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
-    # Fixed: Added 'User' class call
     user1 = User(username="Sammy", password_hash=bcrypt.generate_password_hash("Kiddo12345").decode("utf-8"))
     user2 = User(username="Samantha", password_hash=bcrypt.generate_password_hash("Kiddo54321").decode("utf-8"))
 
     db.session.add(user1)
     db.session.add(user2)
-    db.session.commit() # Commit here so user1.id and user2.id are generated
+    db.session.commit() 
 
     note1 = Note(
         title="King's Jewls",
