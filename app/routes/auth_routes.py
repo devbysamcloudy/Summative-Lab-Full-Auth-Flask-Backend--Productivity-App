@@ -33,7 +33,7 @@ def login():
     if not user or not bcrypt.check_password_hash(user.password_hash, data["password"]):
         return {"error": "Invalid credentials"}, 401
     
-    token = create_access_token(identity = user.id)
+    token = create_access_token(identity = str(user.id))
     return {"access_token": token}, 200
 
 
@@ -42,7 +42,7 @@ def login():
 def me():
 
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = User.query.filter_by(id=user_id).first()
 
     if not user:
         return {"error": "User not found"}, 404

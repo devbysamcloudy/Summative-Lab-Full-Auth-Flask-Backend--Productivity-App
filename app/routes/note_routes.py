@@ -31,17 +31,17 @@ def get_notes():
     per_page = request.args.get("per_page", 5, type=int)
 
 
-    note =  Note.query.filter_by(id = id, user_id = user_id).first()
+    note= Note.query.filter_by(user_id=user_id).paginate(page=page, per_page=per_page, error_out=False)
 
 
     if not note:
-        return ("Error :" "Note not found"), 404
+        return {"error": "Note not found"}, 404
     
-    return {
-        "id": note.id,
-        "title": note.title,
-        "content": note.content,
-    }, 200
+    return {"note": [{
+        "id": n.id,
+        "title": n.title,
+        "content": n.content
+        } for n in note.items]}, 200
 
 
 @note_bp.route("/notes/<int:id>", methods = ["PATCH"])
@@ -71,7 +71,7 @@ def delete_note(id):
     note = Note.query.filter_by(id = id, user_id = user_id).first()
 
     if not note:
-        return ("Error :" "Note not found"), 404
+        return {"error": "Note not found"}, 404
     
     db.session.delete(note)
     db.session.commit()
